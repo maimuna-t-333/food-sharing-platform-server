@@ -29,13 +29,24 @@ async function run() {
         await client.connect();
 
         const foodCollection = client.db('FoodCode').collection('foods')
+        const requestsCollection = client.db('FoodCode').collection('requests')
         //food api
 
+
         app.get('/foods', async (req, res) => {
-            const cursor = foodCollection.find();
-            const result = await cursor.toArray();
-            res.send(result);
-        })
+            try {
+                const sortOrder = req.query.sort === 'desc' ? -1 : 1;
+                const filter = { status: 'available' };
+
+                const foods = await foodCollection.find(filter).sort({ expireDate: sortOrder }).toArray();
+
+                res.send(foods);
+            } catch (error) {
+                console.error('Error fetching foods:', error);
+                res.status(500).send({ error: 'Failed to fetch foods' });
+            }
+        });
+
 
         app.get('/foods/:id', async (req, res) => {
             const id = req.params.id;
@@ -44,22 +55,62 @@ async function run() {
             res.send(result)
         })
 
-
-        app.get('/foods', async (req, res) => {
+        app.delete('/foods/:id', async (req, res) => {
+            const id = req.params.id;
             try {
-                const sortOrder = req.query.sort === 'desc' ? -1 : 1;
-
-                const foods = await foodCollection
-                    .find({ status: 'available' })
-                    .sort({ expireDate: sortOrder }) 
-                    .toArray();
-
-                res.send(foods);
-            } catch (error) {
-                console.error('Error fetching foods:', error);
-                res.status(500).send({ error: 'Failed to fetch foods' });
+                const result = await foodCollection.deleteOne({ _id: new ObjectId(id) });
+                res.send(result);
+            } catch (err) {
+                res.status(500).json({ message: 'Failed to delete food' });
             }
         });
+
+
+        app.post('/foods', async (req, res) => {
+            try {
+                const food = req.body;
+                food.status = 'available';
+                const result = await foodCollection.insertOne(food);
+                res.status(201).json(result);
+            } catch (err) {
+                res.status(500).json({ message: "Failed to add food" });
+            }
+        });
+
+        app.post('/requests', async (req, res) => {
+            const newRequest = req.body;
+            const result = await requestsCollection.insertOne(newRequest);
+            res.send(result);
+        });
+
+        app.patch('/foods/:id', async (req, res) => {
+            const id = req.params.id;
+            const updated = req.body;
+            const result = await foodCollection.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: updated }
+            );
+            res.send(result);
+        });
+
+
+        app.get('/myFood', async (req, res) => {
+            const email = req.query.email;
+            if (!email) return res.status(400).send({ message: 'Email required' });
+
+            const result = await foodCollection.find({ donorEmail: email }).toArray();
+            res.send(result);
+        });
+
+        app.get('/myRequests', async (req, res) => {
+            const email = req.query.email;
+            if (!email) return res.status(400).send({ message: 'Email required' });
+
+            const result = await requestsCollection.find({ userEmail: email }).toArray();
+            res.send(result);
+        });
+
+
 
 
         // Send a ping to confirm a successful connection
