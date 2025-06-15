@@ -30,13 +30,20 @@ async function run() {
 
         const foodCollection = client.db('FoodCode').collection('foods')
         const requestsCollection = client.db('FoodCode').collection('requests')
+
         //food api
 
 
         app.get('/foods', async (req, res) => {
             try {
                 const sortOrder = req.query.sort === 'desc' ? -1 : 1;
-                const filter = { status: 'available' };
+                const search = req.query.search || '';
+                const filter = {
+                    status: 'available',
+                    ...(search && {
+                        name: { $regex: search, $options: 'i' }
+                    })
+                };
 
                 const foods = await foodCollection.find(filter).sort({ expireDate: sortOrder }).toArray();
 
@@ -97,7 +104,6 @@ async function run() {
         app.get('/myFood', async (req, res) => {
             const email = req.query.email;
             if (!email) return res.status(400).send({ message: 'Email required' });
-
             const result = await foodCollection.find({ donorEmail: email }).toArray();
             res.send(result);
         });
@@ -105,7 +111,6 @@ async function run() {
         app.get('/myRequests', async (req, res) => {
             const email = req.query.email;
             if (!email) return res.status(400).send({ message: 'Email required' });
-
             const result = await requestsCollection.find({ userEmail: email }).toArray();
             res.send(result);
         });
