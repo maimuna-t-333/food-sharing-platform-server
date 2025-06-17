@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "food-sharing-platform-client",
+  "private_key_id": "5b2de5e436bc90972530c2160f1b650b003a7362",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDfnq19JFWyTZxy\nsLwI5hVWetPLSPW7wAnneCWhOjGf7gf7RlpnE00FbseqbKnchv2mbgBV5KDBTmUX\nFRSV1lI/ioWgJ7qjb4+TIm0eaCRmzLLzOC/f/kcPbHgQeECq591yJuHF3iLEw7OC\nCqmD94+046y1cqLN/4WE3IaCoGOw878LVlkzPiHKUVw8qIQwLxM1B41KeiszkJBD\nwFEbUbfbabT0yOLyoym0Xe9i96LBHBhlbv0qgRHjA7ASWJmgm12uSSEpSMvNexb7\nJDrrnKPqYy7VM2Gls6yWlH4EQUbLAwAfyEzRym2DSHZPix2WgWtH6y2mQo4I4OAE\nhvWHn8QpAgMBAAECggEAB4zp37QBNBQxyEpBDG3fDOdNzRXevOL8PUq4aTa3+TtG\nHWJf6A4QnN0uNF9skYEkrGDCIHmn7I796SccOv5HEv/ViOBT3skuswbyYe3zQ139\nsX+qrNNUST2I2kmCfs11voZ4kL/yMuxGsd6JSxGUp8TDjpwwdL3VdMnQvYq2gwF6\nZewMfzCmeoXEPUqaTNUlBuK0S2zQRkIzneNL9onz2T9XMxIc9Epf3TGfEXqSXNr5\nl5U/ur6P5ttiTjloiYw2xG38tMTLl7ZlXbdoyy4v0ukTfcnssyamS7CkxHuWxmnd\n1IPqpKs20kIV5M17jAgtyd2rgAJFbnN3l74zO9xzvwKBgQD7FiiKW72UB32GYgQP\nSOnqM8TcavLOZ4WED7A0vksbsE83nK5T3xQcYPMGc7cZ4AqYacdGcUyTTi5EJqno\nVYp3AP45CWl/hi/8IFQSSv5crzAAMDKfrbBYP0jeVqTpdS3qfo+xRXxhisNYhN4x\nBfCEMW5Ryx4MEQwo6QyxGM+qmwKBgQDj/uwWO5NBrPj137ZguSLRHdQDhJDJjjDk\nb0RcjRXCTaJLjOYXVJOQuJvCEiKlwIBf2niI0Kf5OInvY28hPxoK6NLYOevdwZjW\ns3diuzqcowrMhHwfL5l/6pfx11VNRgZDOY4Bk2Dd2kwkL9IxeZhO6dFAAKb5FSGV\n3G6Q70OGiwKBgHhJ7FAklVUmpX9M088SymWWOZizb/FsbO2QqoUKKWdxdvIYkPfD\nZpoV5DfSFgVCbTEJdBuOSfZEPSwPLdUNrhFHG4Ptu2oJulFal4xP+z4h+6gLbyVK\ni7IrV1iVP9pMdhviWCrANE9ysBVnSh9ITiq2l7h9y75SKHYs+BSb41lDAoGBAMfh\nIjqvif7G1RBBS1Nqm1J3cvqOipyZMtXhki4NZikNBJ51bPbBKAl1PuAaJBPqOuFN\n1+QiAVDlN1AOfUvJVVyBFu+Hf/fOlN6NQbnl6JGQApSgBW0Vvt283e6gWGFBZZYj\n7BIHkaGNkrkaz4yeTF/Kbq9MoxW1Z9dJBAm+KRXXAoGBAMJ4fL1DAd02aOu0E06C\nFs5SD3HTuPIvPUbcSulmFkFTQ0QCI/Gp/7AeB0GWcdfrVxQ04UrOx5u/PX9n2t/T\nDAKTrYPUJCKoX5q7WIPN4bhwYQzo4W1D7lfS2wyAwtFq/3C4oQkPYQme0bu/fogw\nLlYGy+EEB6P9Nlcrg13eFt/Z\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@food-sharing-platform-client.iam.gserviceaccount.com",
+  "client_id": "111447120330746069202",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40food-sharing-platform-client.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

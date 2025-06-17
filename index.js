@@ -1,14 +1,16 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
+const admin = require("firebase-admin");
+const serviceAccount = require("./firebase-admin-service-key.json");
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-require('dotenv').config()
+
 
 //middleware
 app.use(cors());
 app.use(express.json())
-
 
 
 
@@ -22,6 +24,42 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
+
+
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
+
+
+const verifyFirebaseToken = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).send({ message: 'unauthorized access' })
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = await admin.auth().verifyIdToken(token)
+        console.log('decoded token', decoded)
+        req.decoded = decoded;
+        next();
+    }
+    catch (error) {
+        return res.status(401).send({ message: 'unauthorized access' })
+    }
+    // console.log('token in the middleware',token)
+
+}
+
+const verifyTokenEmail=(req,res,next)=>{
+    if(req.query.email !==req.decoded.email){
+        return res.status(403).send({ message: 'forbidden access' })
+    }
+    next();
+}
+
 
 async function run() {
     try {
@@ -86,7 +124,9 @@ async function run() {
 
         app.post('/requests', async (req, res) => {
             const newRequest = req.body;
+
             const result = await requestsCollection.insertOne(newRequest);
+
             res.send(result);
         });
 
@@ -101,17 +141,18 @@ async function run() {
         });
 
 
-        app.get('/myFood', async (req, res) => {
+        app.get('/myFood', verifyFirebaseToken,verifyTokenEmail, async (req, res) => {
             const email = req.query.email;
             if (!email) return res.status(400).send({ message: 'Email required' });
             const result = await foodCollection.find({ donorEmail: email }).toArray();
             res.send(result);
         });
 
-        app.get('/myRequests', async (req, res) => {
+        app.get('/myRequests', verifyFirebaseToken,verifyTokenEmail, async (req, res) => {
             const email = req.query.email;
             if (!email) return res.status(400).send({ message: 'Email required' });
             const result = await requestsCollection.find({ userEmail: email }).toArray();
+            console.log(result)
             res.send(result);
         });
 
@@ -119,7 +160,7 @@ async function run() {
 
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
